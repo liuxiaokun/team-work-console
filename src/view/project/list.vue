@@ -54,7 +54,7 @@
             render: (h, params) => {
               return h('i-progress', {
                 props: {
-                  percent: '45',
+                  percent: params.row.completePercent,
                   'stroke-width': '22',
                   'status': 'success',
                   'text-inside':true,

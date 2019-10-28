@@ -1,5 +1,6 @@
 import Main from '@/components/main'
 import parentView from '@/components/parent-view'
+import project from './project'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -16,40 +17,41 @@ import parentView from '@/components/parent-view'
  *  beforeCloseName: (-) 设置该字段，则在关闭当前tab页时会去'@/router/before-close.js'里寻找该字段名对应的方法，作为关闭前的钩子函数
  * }
  */
+let login = {
+  path: '/login',
+  name: 'login',
+  meta: {
+    title: 'Login - 登录',
+    hideInMenu: true
+  },
+  component: () => import('@/view/login/login.vue')
+}
 
-export default [
-  {
-    path: '/login',
-    name: 'login',
-    meta: {
-      title: 'Login - 登录',
-      hideInMenu: true
-    },
-    component: () => import('@/view/login/login.vue')
+let home = {
+  path: '/',
+  name: '_home',
+  redirect: '/home',
+  component: Main,
+  meta: {
+    hideInMenu: true,
+    notCache: true
   },
-  {
-    path: '/',
-    name: '_home',
-    redirect: '/home',
-    component: Main,
-    meta: {
-      hideInMenu: true,
-      notCache: true
-    },
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        meta: {
-          hideInMenu: true,
-          title: '首页',
-          notCache: true,
-          icon: 'md-home'
-        },
-        component: () => import('@/view/single-page/home')
-      }
-    ]
-  },
+  children: [
+    {
+      path: '/home',
+      name: 'home',
+      meta: {
+        hideInMenu: true,
+        title: '首页',
+        notCache: true,
+        icon: 'md-home'
+      },
+      component: () => import('@/view/single-page/home')
+    }
+  ]
+}
+
+let origin = [
   {
     path: '',
     name: 'doc',
@@ -488,3 +490,9 @@ export default [
     component: () => import('@/view/error-page/404.vue')
   }
 ]
+
+let routers = []
+routers.push(project)
+routers.push(login)
+routers.push(home)
+export default routers

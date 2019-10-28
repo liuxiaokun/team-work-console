@@ -1,13 +1,32 @@
 <template>
   <div>
-    <h1>project list</h1>
-
-    <Card>
-      <Table :columns="columns" stripe :data="data" border></Table>
-      <div style="float: right;">
-        <Page :total="100" :current="1"></Page>
-      </div>
+    <Card style="margin: 5px">
+      <Row>
+        <Col span="23">
+          <Input v-model="name" placeholder="输入项目名" style="width: 300px; margin-right: 18px"></Input>
+          <Button type="primary" style="margin-right: 18px">搜索</Button>
+        </Col>
+        <Col span="1">
+          <Button type="success">新增项目</Button>
+        </Col>
+      </Row>
     </Card>
+
+    <Card style="margin: 5px">
+      <Row>
+        <Table :columns="columns" stripe :data="data" border></Table>
+      </Row>
+
+      <Row v-show="pc.total>0">
+        <Col>
+          <Page :total="pc.total" :current="pc.pageIndex" show-total show-sizer @on-change="changePageIndex"
+                style="float: right;margin: 10px;" :page-size-opts="[10,20,50,100]" :page-size="pc.pageSize"
+                @on-page-size-change='changePageSize'></Page>
+        </Col>
+      </Row>
+
+    </Card>
+
   </div>
 </template>
 
@@ -18,6 +37,12 @@
     name: 'list',
     data () {
       return {
+        name:'',
+        pc: {
+          pageIndex: 1,
+          pageSize: 20,
+          total: 0
+        },
         columns: [
           {
             title: '项目名',
@@ -55,10 +80,10 @@
               return h('i-progress', {
                 props: {
                   percent: params.row.completePercent,
-                  'stroke-width': '22',
+                  'stroke-width': 22,
                   'status': 'success',
-                  'text-inside':true,
-                  'hide-info':true
+                  'text-inside': true,
+                  'hide-info': true
                 }
               })
             }
@@ -77,10 +102,18 @@
           if (res.data.success) {
             console.log(res.data.data)
             this.data = res.data.data
-            //this.pc = res.data.pc
+            this.pc = res.data.pc
           }
         })
-      }
+      },
+
+      changePageIndex (page) {
+        this.pc.pageIndex = page || 1
+      },
+
+      changePageSize (num) {
+        this.pc.pageSize = parseInt(num)
+      },
     }
   }
 </script>

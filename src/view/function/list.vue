@@ -80,7 +80,7 @@
             render: (h, params) => {
               return h('Tag', {
                 props: {
-                  'color': 'primary'
+                  'color': 'success'
                 }
               }, params.row.currentStateName)
             }

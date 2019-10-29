@@ -1,8 +1,8 @@
 import Main from '@/components/main'
 
-let project = {
+let func = {
   path: '/function',
-  name: '项目',
+  name: '需求',
   meta: {
     icon: 'md-menu',
     title: '需求'
@@ -20,4 +20,4 @@ let project = {
     }
   ]
 }
-export default project
+export default func

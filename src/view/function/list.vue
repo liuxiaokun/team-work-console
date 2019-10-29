@@ -62,7 +62,7 @@
           },
           {
             title: '所属项目',
-            key: 'projectId',
+            key: 'projectName',
             align: 'center',
             width: 220
           },

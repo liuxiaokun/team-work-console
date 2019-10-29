@@ -3,11 +3,11 @@
     <Card style="margin: 5px">
       <Row>
         <Col span="23">
-          <Input v-model="filters.name" placeholder="输入项目名" style="width: 300px; margin-right: 18px"></Input>
+          <Input v-model="filters.name" placeholder="输入需求名" style="width: 300px; margin-right: 18px"></Input>
           <Button type="primary" style="margin-right: 18px" @click="load()">搜索</Button>
         </Col>
         <Col span="1">
-          <Button type="success" @click="addProject()">新增项目</Button>
+          <Button type="success">新增需求</Button>
         </Col>
       </Row>
     </Card>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import * as projectApi from '@/api/project'
+  import * as api from '@/api/function'
 
   export default {
     name: 'list',
@@ -51,29 +51,39 @@
             type: 'index'
           },
           {
-            title: '项目名',
+            title: '名字',
             key: 'name'
           },
           {
-            title: '代码托管地址',
-            render: (h, params) => {
-              return h('a', {
-                attrs: {
-                  href: params.row.codeGitUrl,
-                  target: '_blank'
-                }
-              }, params.row.codeGitUrl)
-            }
-          },
-          {
-            title: '启动时间',
-            key: 'startTime',
+            title: '开发开始',
+            key: 'devStartTime',
             width: 150
           },
           {
-            title: '完工时间',
+            title: '开发结束',
+            key: 'devDeadline',
+            width: 150
+          },
+          {
+            title: '测试结束',
+            key: 'testDeadline',
+            width: 150
+          },
+          {
+            title: '上线',
             key: 'deadline',
             width: 150
+          },
+          {
+            title: '状态',
+            key: 'currentStateName',
+            render: (h, params) => {
+              return h('Tag', {
+                props: {
+                  'color': 'primary'
+                }
+              }, params.row.currentStateName)
+            }
           },
           {
             title: '备注',
@@ -98,6 +108,7 @@
         data: []
       }
     },
+
     created () {
       this.load()
     },
@@ -114,7 +125,6 @@
         }
       }
     },
-
     methods: {
       load () {
         let paging = {
@@ -123,18 +133,11 @@
         }
 
         let params = Object.assign({}, paging, this.filters)
-        projectApi.getProjects(params).then((res) => {
+        api.getFunctions(params).then((res) => {
           if (res.data.success) {
             this.data = res.data.data
             this.pc = res.data.pc
           }
-        })
-      },
-
-      addProject() {
-        this.$router.push({
-          path: '/project/add',
-          query: {id: 0}
         })
       },
 

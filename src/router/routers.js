@@ -1,6 +1,7 @@
 import Main from '@/components/main'
 import parentView from '@/components/parent-view'
 import project from './project'
+import func from './function'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -493,6 +494,7 @@ let origin = [
 
 let routers = []
 routers.push(project)
+routers.push(func)
 routers.push(login)
 routers.push(home)
 export default routers

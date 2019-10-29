@@ -4,7 +4,7 @@ import qs from 'qs'
 import iview from 'iview'
 import { setToken, getToken } from '@/libs/util'
 
-export const url = 'http://localhost:3333/'
+export const url = 'http://192.168.2.246:3333/'
 
 if (getToken()) {
   axios.defaults.headers.common['Authorization'] = getToken()

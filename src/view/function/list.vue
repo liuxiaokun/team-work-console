@@ -4,7 +4,12 @@
       <Row>
         <Col span="23">
           <Input v-model="filters.name" placeholder="输入需求名" style="width: 300px; margin-right: 18px"></Input>
-          <Button type="primary" style="margin-right: 18px" @click="load()">搜索</Button>
+
+          <Select v-model="filters.projectId" style="width: 200px">
+            <Option v-for="item in projects" :value="item.id" :key="item.id">{{ item.name }}</Option>
+          </Select>
+
+          <Button type="primary" style="margin-left: 18px" @click="load()">搜索</Button>
         </Col>
         <Col span="1">
           <Button type="success">新增需求</Button>
@@ -32,14 +37,17 @@
 
 <script>
   import * as api from '@/api/function'
+  import * as projectApi from '@/api/project'
 
   export default {
     name: 'list',
     data () {
       return {
         filters: {
-          name: ''
+          name: '',
+          projectId:''
         },
+        projects:[],
         pc: {
           pageIndex: 1,
           pageSize: 20,
@@ -47,12 +55,16 @@
         },
         columns: [
           {
-            title: '编号',
-            type: 'index'
+            title: '#',
+            type: 'index',
+            align: 'center',
+            width: 50
           },
           {
             title: '所属项目',
-            key: 'projectId'
+            key: 'projectId',
+            align: 'center',
+            width: 220
           },
           {
             title: '名字',
@@ -61,30 +73,36 @@
           {
             title: '开发开始',
             key: 'devStartTime',
-            width: 150
+            align: 'center',
+            width: 200
           },
           {
             title: '开发结束',
             key: 'devDeadline',
-            width: 150
+            align: 'center',
+            width: 200
           },
           {
             title: '测试结束',
             key: 'testDeadline',
-            width: 150
+            align: 'center',
+            width: 200
           },
           {
             title: '上线',
             key: 'deadline',
-            width: 150
+            align: 'center',
+            width: 200
           },
           {
             title: '状态',
             key: 'currentStateName',
+            width: 120,
             render: (h, params) => {
+              let color = params.row.currentStateName === '上线完成'?'success':'warning'
               return h('Tag', {
                 props: {
-                  'color': 'success'
+                  'color': color
                 }
               }, params.row.currentStateName)
             }
@@ -114,6 +132,7 @@
     },
 
     created () {
+      this.loadProject()
       this.load()
     },
 
@@ -130,6 +149,13 @@
       }
     },
     methods: {
+      loadProject() {
+        projectApi.getProjects({p:1,s:2000}).then((res) => {
+          if (res.data.success) {
+            this.projects = res.data.data
+          }
+        })
+      },
       load () {
         let paging = {
           p: this.pc.pageIndex,

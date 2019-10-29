@@ -47,12 +47,43 @@
         },
         columns: [
           {
-            title: '编号',
-            type: 'index'
+            title: '#',
+            type: 'index',
+            align: 'center',
+            width: 50
           },
           {
             title: '项目名',
-            key: 'name'
+            key: 'name',
+            align: 'center',
+            width: 220
+          },
+          {
+            title: '启动时间',
+            key: 'startTime',
+            align: 'center',
+            width: 200
+          },
+          {
+            title: '完工时间',
+            key: 'deadline',
+            align: 'center',
+            width: 200
+          },
+          {
+            title: '完成进度',
+            width: 200,
+            render: (h, params) => {
+              return h('i-progress', {
+                props: {
+                  percent: params.row.completePercent,
+                  'stroke-width': 22,
+                  'status': 'success',
+                  'text-inside': true,
+                  'hide-info': true
+                }
+              })
+            }
           },
           {
             title: '代码托管地址',
@@ -66,33 +97,8 @@
             }
           },
           {
-            title: '启动时间',
-            key: 'startTime',
-            width: 150
-          },
-          {
-            title: '完工时间',
-            key: 'deadline',
-            width: 150
-          },
-          {
             title: '备注',
             key: 'remark'
-          },
-          {
-            title: '完成进度',
-            width: 300,
-            render: (h, params) => {
-              return h('i-progress', {
-                props: {
-                  percent: params.row.completePercent,
-                  'stroke-width': 22,
-                  'status': 'success',
-                  'text-inside': true,
-                  'hide-info': true
-                }
-              })
-            }
           },
         ],
         data: []

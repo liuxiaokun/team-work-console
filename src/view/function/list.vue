@@ -112,12 +112,12 @@
             key: 'remark'
           },
           {
-            title: '完成进度',
+            title: '时间消耗',
             width: 300,
             render: (h, params) => {
               return h('i-progress', {
                 props: {
-                  percent: params.row.completePercent,
+                  percent: params.row.timeCostPercent,
                   'stroke-width': 22,
                   'status': 'success',
                   'text-inside': true,

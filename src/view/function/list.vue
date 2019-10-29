@@ -51,6 +51,10 @@
             type: 'index'
           },
           {
+            title: '所属项目',
+            key: 'projectId'
+          },
+          {
             title: '名字',
             key: 'name'
           },

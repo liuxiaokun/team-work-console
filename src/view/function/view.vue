@@ -14,10 +14,16 @@
               <ListItemMeta title="当前状态" :description="data.currentStateName" />
             </ListItem>
             <ListItem>
+              <ListItemMeta title="当前处理人" :description="data.currentHandlePerson" />
+            </ListItem>
+            <ListItem>
               <ListItemMeta title="详细描述" :description="data.desc" />
             </ListItem>
             <ListItem>
               <ListItemMeta title="创建时间" :description="data.createdDate" />
+            </ListItem>
+            <ListItem>
+              <ListItemMeta title="创建人" :description="data.createdName" />
             </ListItem>
 
           </List>
@@ -29,8 +35,14 @@
         </Card>
         <Card style="margin-left: 5px;">
           <div style="height: 300px;">
+            <List style="height: 300px">
+              <ListItem>开发过程超时</ListItem>
+              <ListItem>测试过程超时</ListItem>
+              <ListItem>上线过程超时</ListItem>
+              <ListItem>上线过程超时</ListItem>
+              <ListItem>验收正常</ListItem>
+            </List>
           </div>
-
         </Card>
       </Col>
       <Col span="4">
@@ -55,7 +67,7 @@
             <TimelineItem color="green">
               <Icon type="md-create" slot="dot"></Icon>
               <p class="time">{{data.createdDate}}</p>
-              <p class="content">创建需求</p>
+              <p class="content">提出需求</p>
             </TimelineItem>
             <TimelineItem :color="devStartTimeColor">
               <Icon type="logo-codepen" slot="dot"></Icon>
@@ -95,10 +107,10 @@ export default {
     return {
       colorGray: '#999999',
       currentDate: '',
-      devStartTimeColor: 'red',
-      testStartTimeColor: 'red',
-      deployStartTimeColor: 'red',
-      deadlineColor: 'red',
+      devStartTimeColor: '#999999',
+      testStartTimeColor: '#999999',
+      deployStartTimeColor: '#999999',
+      deadlineColor: '#999999',
       data: {}
     }
   },

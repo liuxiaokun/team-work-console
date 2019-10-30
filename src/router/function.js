@@ -17,6 +17,15 @@ let func = {
         title: '需求列表'
       },
       component: () => import('@/view/function/list.vue')
+    },
+    {
+      path: 'view',
+      name: '详情',
+      meta: {
+        icon: 'md-funnel',
+        title: '详情'
+      },
+      component: () => import('@/view/function/view.vue')
     }
   ]
 }

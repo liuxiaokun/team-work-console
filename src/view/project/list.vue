@@ -78,7 +78,7 @@
                 props: {
                   percent: params.row.completePercent,
                   'stroke-width': 22,
-                  'status': 'success',
+                  'status': 'active',
                   'text-inside': true,
                   'hide-info': true
                 }

@@ -16,24 +16,32 @@
             <ListItem>
               <ListItemMeta title="详细描述" :description="data.desc" />
             </ListItem>
+            <ListItem>
+              <ListItemMeta title="创建时间" :description="data.createdDate" />
+            </ListItem>
+
           </List>
         </Card>
       </Col>
       <Col span="4">
-        <Card>
-          111
+        <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
+          异常检查
+        </Card>
+        <Card style="margin-left: 5px;">
+          <div style="height: 300px;">
+          </div>
 
         </Card>
       </Col>
       <Col span="4">
-        <Card style="text-align: center; margin-left: 5px; font-weight: bold; font-size: 16px">
+        <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
           进度占比
         </Card>
         <Card style="margin-left: 5px;">
           <div style="height: 300px;">
-            <div style="padding-bottom: 10px; text-align: center">时间消耗</div>
+            <div style="padding-bottom: 10px;">时间消耗</div>
             <Progress :percent="45" status="active" :stroke-width="25"/>
-            <div style="padding-bottom: 10px; padding-top: 10px; text-align: center">完成进度</div>
+            <div style="padding-bottom: 10px; padding-top: 10px;">完成进度</div>
             <Progress :percent="100" :stroke-width="25" style/>
           </div>
         </Card>
@@ -44,6 +52,10 @@
         </Card>
         <Card style="margin-left: 5px">
           <Timeline>
+            <TimelineItem>
+              <p class="time">{{data.createdDate}}</p>
+              <p class="content">创建需求</p>
+            </TimelineItem>
             <TimelineItem>
               <p class="time">{{data.devStartTime}}</p>
               <p class="content">开始开发</p>
@@ -111,7 +123,7 @@ export default {
     font-size: 14px;
     padding-top: 5px;
     padding-left: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
 </style>

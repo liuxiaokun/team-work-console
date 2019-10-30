@@ -40,7 +40,7 @@
       </Col>
       <Col span="4">
         <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
-          时间节点：{{currentDate}}
+          时间节点
         </Card>
         <Card style="margin-left: 5px">
           <Timeline>

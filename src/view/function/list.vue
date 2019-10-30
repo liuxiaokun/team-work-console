@@ -77,10 +77,10 @@ export default {
   data () {
     return {
       pieData: [
-        { value: 335, name: '开发中' },
-        { value: 310, name: '测试中' },
-        { value: 234, name: '上线' },
-        { value: 135, name: '回退' }
+        { value: 335, name: '开发' },
+        { value: 310, name: '上线' },
+        { value: 135, name: '回退' },
+        { value: 234, name: '测试' }
       ],
 
       barData: {

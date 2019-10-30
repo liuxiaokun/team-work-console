@@ -48,28 +48,33 @@
       </Col>
       <Col span="4">
         <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
-          时间节点
+          进度节点
         </Card>
         <Card style="margin-left: 5px">
           <Timeline>
-            <TimelineItem>
+            <TimelineItem color="green">
+              <Icon type="md-create" slot="dot"></Icon>
               <p class="time">{{data.createdDate}}</p>
               <p class="content">创建需求</p>
             </TimelineItem>
-            <TimelineItem>
-              <p class="time">{{data.devStartTime}}</p>
-              <p class="content">开始开发</p>
+            <TimelineItem :color="devStartTimeColor">
+              <Icon type="logo-codepen" slot="dot"></Icon>
+              <p class="time">{{data.devStartTimeFormat}}</p>
+              <p class="content">开发中</p>
             </TimelineItem>
-            <TimelineItem>
-              <p class="time">{{data.devDeadline}}</p>
-              <p class="content">开发完成</p>
+            <TimelineItem :color="testStartTimeColor">
+              <Icon type="logo-foursquare" slot="dot"></Icon>
+              <p class="time">{{data.testStartTimeFormat}}</p>
+              <p class="content">测试中</p>
             </TimelineItem>
-            <TimelineItem>
-              <p class="time">{{data.testDeadline}}</p>
-              <p class="content">测试完成</p>
+            <TimelineItem :color="deployStartTimeColor">
+              <Icon type="md-cloud" slot="dot"></Icon>
+              <p class="time">{{data.deployStartTimeFormat}}</p>
+              <p class="content">上线中</p>
             </TimelineItem>
-            <TimelineItem>
-              <p class="time">{{data.deadline}}</p>
+            <TimelineItem :color="deadlineColor">
+              <Icon type="md-checkmark-circle" slot="dot"></Icon>
+              <p class="time">{{data.deadlineFormat}}</p>
               <p class="content">上线发布</p>
             </TimelineItem>
           </Timeline>
@@ -88,7 +93,12 @@ export default {
 
   data () {
     return {
+      colorGray: '#999999',
       currentDate: '',
+      devStartTimeColor: 'red',
+      testStartTimeColor: 'red',
+      deployStartTimeColor: 'red',
+      deadlineColor: 'red',
       data: {}
     }
   },
@@ -105,6 +115,37 @@ export default {
       api.getFunction(params).then((res) => {
         if (res.data.success) {
           this.data = res.data.data
+
+          if (time > this.data.deadline) {
+            this.devStartTimeColor = 'green'
+            this.testStartTimeColor = 'green'
+            this.deployStartTimeColor = 'green'
+            this.deadlineColor = 'green'
+          } else if (time > this.data.deployStartTime) {
+            this.devStartTimeColor = 'green'
+            this.testStartTimeColor = 'green'
+            this.deployStartTimeColor = 'green'
+            this.deadlineColor = 'blue'
+          } else if (time > this.data.testStartTime) {
+            this.devStartTimeColor = 'green'
+            this.testStartTimeColor = 'green'
+            this.deployStartTimeColor = 'blue'
+            this.deadlineColor = this.colorGray
+          } else if (time > this.data.devStartTime) {
+            this.devStartTimeColor = 'green'
+            this.testStartTimeColor = 'blue'
+            this.deployStartTimeColor = this.colorGray
+            this.deadlineColor = this.colorGray
+          } else {
+            this.devStartTimeColor = this.colorGray
+            this.testStartTimeColor = this.colorGray
+            this.deployStartTimeColor = this.colorGray
+            this.deadlineColor = this.colorGray
+          }
+          this.data.devStartTimeFormat = moment(this.data.devStartTime).format('YYYY-MM-DD hh:mm:ss')
+          this.data.testStartTimeFormat = moment(this.data.testStartTime).format('YYYY-MM-DD hh:mm:ss')
+          this.data.deployStartTimeFormat = moment(this.data.deployStartTime).format('YYYY-MM-DD hh:mm:ss')
+          this.data.deadlineFormat = moment(this.data.deadline).format('YYYY-MM-DD hh:mm:ss')
         }
       })
     }

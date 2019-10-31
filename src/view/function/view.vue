@@ -101,7 +101,7 @@ import * as api from '@/api/function'
 import moment from 'moment'
 
 export default {
-  name: 'view',
+  name: 'function-view',
 
   data () {
     return {

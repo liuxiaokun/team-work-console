@@ -36,11 +36,11 @@
         <Card style="margin-left: 5px;">
           <div style="height: 300px;">
             <List style="height: 300px">
-              <ListItem>开发过程超时</ListItem>
-              <ListItem>测试过程超时</ListItem>
-              <ListItem>上线过程超时</ListItem>
-              <ListItem>上线过程超时</ListItem>
-              <ListItem>验收正常</ListItem>
+              <ListItem>开发过程超时 <span style="margin-left: 160px">责任人: 张三</span></ListItem>
+              <ListItem>测试过程超时 <span style="margin-left: 160px">责任人: 张三</span></ListItem>
+              <ListItem>上线过程超时 <span style="margin-left: 160px">责任人: 张三</span></ListItem>
+              <ListItem>上线过程超时 <span style="margin-left: 160px">责任人: 张三</span></ListItem>
+              <ListItem>验收正常 <span style="margin-left: 187px">责任人: 张三</span></ListItem>
             </List>
           </div>
         </Card>
@@ -60,7 +60,7 @@
       </Col>
       <Col span="4">
         <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
-          进度节点
+          计划进度
         </Card>
         <Card style="margin-left: 5px">
           <Timeline>

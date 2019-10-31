@@ -15,13 +15,13 @@
       <Col span="8">
         <Card style="margin: 5px">
           <List style="height: 300px">
-            <ListItem><span class="list-span-message">2019-09-09 10:21:21 </span>王迁完成了android端系统推送</ListItem>
-            <ListItem><span class="list-span-message">2019-09-09 10:22:21 </span>张杰完成了ios端系统推送</ListItem>
-            <ListItem><span class="list-span-message">2019-09-09 10:23:21 </span>邹广鹏完成了后台推送功能</ListItem>
-            <ListItem><span class="list-span-message">2019-09-09 10:24:21 </span>邹广鹏完成了后台推送功能</ListItem>
-            <ListItem><span class="list-span-message">2019-09-09 10:25:21 </span>邹广鹏完成了后台推送功能</ListItem>
-            <ListItem><span class="list-span-message">2019-09-09 10:26:21 </span>邹广鹏完成了后台推送功能</ListItem>
-            <ListItem><span class="list-span-message">2019-09-09 10:27:21 </span>邹广鹏完成了后台推送功能</ListItem>
+            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:21:21 </span>王迁完成了android端系统推送</ListItem>
+            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:22:21 </span>张杰完成了ios端系统推送</ListItem>
+            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:23:21 </span>邹广鹏完成了后台推送功能</ListItem>
+            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:24:21 </span>邹广鹏完成了后台推送功能</ListItem>
+            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:25:21 </span>邹广鹏完成了后台推送功能</ListItem>
+            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:26:21 </span>邹广鹏完成了后台推送功能</ListItem>
+            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:27:21 </span>邹广鹏完成了后台推送功能</ListItem>
           </List>
         </Card>
       </Col>
@@ -249,8 +249,7 @@ export default {
 <style scoped>
 
   .list-span-message {
-    margin-right: 30px;
-    color: #2d8cf0;
+    color: #17233d;
     font-weight: bold;
   }
 </style>

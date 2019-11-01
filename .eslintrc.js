@@ -9,13 +9,20 @@ module.exports = {
     'generator-star-spacing': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // 'vue/no-parsing-error': [4, {
-    //   'x-invalid-end-tag': false
-    // }],
-    'vue/no-parsing-error':off,
+    'vue/no-parsing-error': 'off',
     'no-undef': 'off',
-    'camelcase': 'off'
+    'camelcase': 'off',
+    'vue/script-indent': ['error', 2, { 'baseIndent': 1 }]
   },
+
+  overrides: [
+    {
+      'files': ['*.vue'],
+      'rules': {
+        'indent': 'off'
+      }
+    }
+  ],
   parserOptions: {
     parser: 'babel-eslint'
   }

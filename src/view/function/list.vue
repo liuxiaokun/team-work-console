@@ -17,7 +17,7 @@
           <List style="height: 300px">
             <ListItem class="list-span-message" v-for="item in itemData" :key="item.title">
               <span style="margin-right: 20px;">{{ item.createdDate }}</span> <Tag color="blue">{{ item.assignerName }}</Tag>
-              将 <Tag color="geekblue">{{item.functionName}}</Tag> 标记为 <Tag color="green">{{item.functionStateName}}</Tag>状态
+              将&nbsp;<Tag color="geekblue">{{item.functionName}}</Tag>标记为&nbsp;<Tag color="green">{{item.functionStateName}}</Tag>状态
             </ListItem>
           </List>
         </Card>

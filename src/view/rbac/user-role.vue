@@ -42,8 +42,8 @@
           {
             title: '邮箱',
             key: 'email'
-          }
-          /* {
+          },
+          {
             title: '角色',
             minWidth: 200,
             align: 'center',
@@ -58,11 +58,11 @@
                 })
               ])
             }
-          }, */
+          }
         ],
         tableData: [],
         userParams: {
-          orgId:0
+          orgId: 0
         }
       }
     },
@@ -77,7 +77,7 @@
           this.orgData = res.data.data
         })
 
-        rbac.getOrgUser({"id":0}).then((res) => {
+        rbac.getOrgUser({ 'id': 0 }).then((res) => {
           this.tableData = res.data.data
         })
       },
@@ -88,7 +88,7 @@
         // 方法的运用 getSelectedNodes也是如此用法
         console.log(choicesAll)
 
-        rbac.getOrgUser({"id": data[0].id}).then((res) => {
+        rbac.getOrgUser({ 'id': data[0].id }).then((res) => {
           this.tableData = res.data.data
         })
       }

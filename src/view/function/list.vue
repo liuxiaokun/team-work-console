@@ -3,7 +3,7 @@
     <Row>
       <Col span="8">
         <Card shadow style="margin: 5px">
-          <chart-pie style="height: 300px"  :value="pieData" text="需求状态分布"></chart-pie>
+          <chart-pie style="height: 300px" :value="pieData" text="需求状态分布"></chart-pie>
         </Card>
       </Col>
       <Col span="8">
@@ -15,13 +15,10 @@
       <Col span="8">
         <Card style="margin: 5px">
           <List style="height: 300px">
-            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:21:21 </span>王迁完成了android端系统推送</ListItem>
-            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:22:21 </span>张杰完成了ios端系统推送</ListItem>
-            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:23:21 </span>邹广鹏完成了后台推送功能</ListItem>
-            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:24:21 </span>邹广鹏完成了后台推送功能</ListItem>
-            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:25:21 </span>邹广鹏完成了后台推送功能</ListItem>
-            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:26:21 </span>邹广鹏完成了后台推送功能</ListItem>
-            <ListItem class="list-span-message"><span style="margin-right: 30px;">2019-09-09 10:27:21 </span>邹广鹏完成了后台推送功能</ListItem>
+            <ListItem class="list-span-message" v-for="item in itemData" :key="item.title">
+              <span style="margin-right: 20px;">{{ item.createdDate }}</span> <Tag color="blue">{{ item.assignerName }}</Tag>
+              将 <Tag color="geekblue">{{item.functionName}}</Tag> 标记为 <Tag color="green">{{item.functionStateName}}</Tag>状态
+            </ListItem>
           </List>
         </Card>
       </Col>
@@ -76,6 +73,7 @@
     },
     data () {
       return {
+        itemData: [],
         pieData: [
           { value: 335, name: '开发' },
           { value: 310, name: '上线' },
@@ -186,7 +184,7 @@
           },
           {
             title: '时间消耗',
-            width: 300,
+            width: 220,
             render: (h, params) => {
               return h('i-progress', {
                 props: {
@@ -243,6 +241,16 @@
           if (res.data.success) {
             this.data = res.data.data
             this.pc = res.data.pc
+          }
+        })
+
+        let historyParam = {
+          scs: 'created_date(desc)',
+          s: '6'
+        }
+        api.getFunctionStateHistory(historyParam).then((res) => {
+          if (res.data.success) {
+            this.itemData = res.data.data
           }
         })
       },

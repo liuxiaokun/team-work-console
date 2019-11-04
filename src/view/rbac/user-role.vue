@@ -60,7 +60,10 @@
             }
           }, */
         ],
-        tableData: []
+        tableData: [],
+        userParams: {
+          orgId:0
+        }
       }
     },
 
@@ -74,7 +77,7 @@
           this.orgData = res.data.data
         })
 
-        rbac.getUser().then((res) => {
+        rbac.getOrgUser({"id":0}).then((res) => {
           this.tableData = res.data.data
         })
       },
@@ -84,6 +87,10 @@
         let choicesAll = this.$refs.orgTree.getCheckedNodes
         // 方法的运用 getSelectedNodes也是如此用法
         console.log(choicesAll)
+
+        rbac.getOrgUser({"id": data[0].id}).then((res) => {
+          this.tableData = res.data.data
+        })
       }
     }
   }

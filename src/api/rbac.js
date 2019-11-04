@@ -9,3 +9,8 @@ export const getOrgTree = (params) => {
 export const getUser = (params) => {
   return ax.g(rbacUrl + '/user', params)
 }
+
+// 查询指定组织id下的所有用户
+export const getOrgUser = (params) => {
+  return ax.g(rbacUrl + '/org/' + params.id + '/user', params)
+}

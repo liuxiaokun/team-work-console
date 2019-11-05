@@ -1,4 +1,5 @@
 import * as ax from '@/libs/http'
+import { projectUrl } from './project'
 
 export const url = 'http://192.168.2.246:3333'
 
@@ -13,4 +14,8 @@ export const getFunction = (params) => {
 // 拿到需求节点变化数据
 export const getFunctionStateHistory = (params) => {
   return ax.g(url + '/function/state/history', params)
+}
+
+export const createFunction = (params) => {
+  return ax.p(projectUrl + '/function', params)
 }

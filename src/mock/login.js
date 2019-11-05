@@ -23,7 +23,7 @@ export const login = req => {
 
 export const getUserInfo = req => {
   const params = getParams(req.url)
-  return USER_MAP[params.token]
+  return USER_MAP['super_admin']
 }
 
 export const logout = req => {

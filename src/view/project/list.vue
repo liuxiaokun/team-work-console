@@ -7,7 +7,7 @@
           <Button type="primary" style="margin-right: 18px" @click="load()">搜索</Button>
         </Col>
         <Col span="1">
-          <Button type="success" @click="addProject()">新增项目</Button>
+          <Button type="success" @click="openDrawer = true">新增项目</Button>
         </Col>
       </Row>
     </Card>
@@ -27,6 +27,44 @@
 
     </Card>
 
+    <Drawer title="创建项目" width="360" :closable="false" :mask-closable="false" v-model="openDrawer">
+      <Form ref="formValidateRef" :model="formData" :rules="ruleValidate">
+        <FormItem label="项目名" label-position="top" prop="name">
+          <Input v-model="formData.name" placeholder="请输入项目名" show-word-limit/>
+        </FormItem>
+
+        <FormItem label="Git代码地址" label-position="top" prop="codeGitUrl">
+          <Input v-model="formData.codeGitUrl" placeholder="请输入Git代码地址"/>
+        </FormItem>
+
+        <FormItem label="项目开始" label-position="top" prop="startTimeDate">
+          <DatePicker v-model="formData.startTimeDate" type="datetime" placeholder="请输入项目开始时间"
+                      style="width: 100%"></DatePicker>
+        </FormItem>
+
+        <FormItem label="项目结束" label-position="top" prop="deadlineDate">
+          <DatePicker v-model="formData.deadlineDate" type="datetime" placeholder="请输入项目结束时间"
+                      style="width: 100%"></DatePicker>
+        </FormItem>
+
+        <FormItem label="备注" label-position="top">
+          <Input v-model="formData.remark" placeholder="请输入备注信息"/>
+        </FormItem>
+
+        <FormItem label="描述" label-position="top">
+          <Input v-model="formData.desc" type="textarea" placeholder="请输入备注信息"/>
+        </FormItem>
+      </Form>
+
+      <Row>
+        <Col span="12">
+          <Button style="width: 90%" @click="openDrawer = false">重置</Button>
+        </Col>
+        <Col span="12">
+          <Button style="width: 90%" type="primary" @click="handleSubmit('formValidateRef')">提交</Button>
+        </Col>
+      </Row>
+    </Drawer>
   </div>
 </template>
 
@@ -37,6 +75,32 @@
     name: 'list',
     data () {
       return {
+        openDrawer: false,
+        ruleValidate: {
+          name: [
+            { required: true, message: '项目名不能为空', trigger: 'blur' }
+          ],
+          codeGitUrl: [
+            { required: true, message: '项目名不能为空', trigger: 'blur' }
+          ],
+          startTimeDate: [
+            { type: 'date', required: true, message: '开始时间不能为空', trigger: 'blur' }
+          ],
+          deadlineDate: [
+            { type: 'date', required: true, message: '结束时间不能为空', trigger: 'blur' }
+          ]
+        },
+        formData: {
+          name: '',
+          codeGitUrl: '',
+          remark: '',
+          desc: '',
+          startTime: '',
+          startTimeDate: '',
+          deadline: '',
+          deadlineDate: ''
+        },
+
         filters: {
           name: ''
         },
@@ -137,10 +201,25 @@
         })
       },
 
+      handleSubmit (name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.addProject()
+          } else {
+            this.$Message.error('Fail!')
+          }
+        })
+      },
       addProject () {
-        this.$router.push({
-          path: '/project/add',
-          query: { id: 0 }
+        this.formData.deadline = Date.parse(this.formData.deadlineDate)
+        this.formData.startTime = Date.parse(this.formData.startTimeDate)
+
+        projectApi.createProject(this.formData).then((res) => {
+          if (res.data.success) {
+            this.$Notice.success({
+              title: '操作成功'
+            })
+          }
         })
       },
 

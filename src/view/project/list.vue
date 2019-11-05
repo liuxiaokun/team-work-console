@@ -99,7 +99,7 @@
           {
             title: '备注',
             key: 'remark'
-          },
+          }
         ],
         data: []
       }
@@ -137,10 +137,10 @@
         })
       },
 
-      addProject() {
+      addProject () {
         this.$router.push({
           path: '/project/add',
-          query: {id: 0}
+          query: { id: 0 }
         })
       },
 
@@ -150,7 +150,7 @@
 
       changePageSize (num) {
         this.pc.pageSize = parseInt(num)
-      },
+      }
     }
   }
 </script>

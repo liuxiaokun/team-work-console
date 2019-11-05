@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row>
-      <Col span="11">
+      <Col span="10">
         <Card>
           <List>
             <ListItem>
@@ -29,18 +29,18 @@
           </List>
         </Card>
       </Col>
-      <Col span="4">
+      <Col span="6">
         <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
           异常检查
         </Card>
         <Card style="margin-left: 5px;">
           <div style="height: 300px;">
             <List style="height: 300px">
-              <ListItem>开发过程超时 <span style="margin-left: 160px">责任人: 张三</span></ListItem>
-              <ListItem>测试过程超时 <span style="margin-left: 160px">责任人: 张三</span></ListItem>
-              <ListItem>上线过程超时 <span style="margin-left: 160px">责任人: 张三</span></ListItem>
-              <ListItem>上线过程超时 <span style="margin-left: 160px">责任人: 张三</span></ListItem>
-              <ListItem>验收正常 <span style="margin-left: 187px">责任人: 张三</span></ListItem>
+              <ListItem>开发过程超时 <span style="margin-left: 60px">责任人: 张三</span></ListItem>
+              <ListItem>测试过程超时 <span style="margin-left: 60px">责任人: 张三</span></ListItem>
+              <ListItem>上线过程超时 <span style="margin-left: 60px">责任人: 张三</span></ListItem>
+              <ListItem>上线过程超时 <span style="margin-left: 60px">责任人: 张三</span></ListItem>
+              <ListItem>验收正常 <span style="margin-left: 86px">责任人: 张三</span></ListItem>
             </List>
           </div>
         </Card>
@@ -97,72 +97,72 @@
 </template>
 
 <script>
-import * as api from '@/api/function'
-import moment from 'moment'
+  import * as api from '@/api/function'
+  import moment from 'moment'
 
-export default {
-  name: 'function-view',
+  export default {
+    name: 'function-view',
 
-  data () {
-    return {
-      colorGray: '#999999',
-      currentDate: '',
-      devStartTimeColor: '#999999',
-      testStartTimeColor: '#999999',
-      deployStartTimeColor: '#999999',
-      deadlineColor: '#999999',
-      data: {}
-    }
-  },
+    data () {
+      return {
+        colorGray: '#999999',
+        currentDate: '',
+        devStartTimeColor: '#999999',
+        testStartTimeColor: '#999999',
+        deployStartTimeColor: '#999999',
+        deadlineColor: '#999999',
+        data: {}
+      }
+    },
 
-  created () {
-    this.load({})
-  },
+    created () {
+      this.load({})
+    },
 
-  methods: {
-    load (params) {
-      let time = new Date().getTime()
-      this.currentDate = moment(time).format('YYYY-MM-DD hh:mm:ss')
-      params.id = this.$route.query.id
-      api.getFunction(params).then((res) => {
-        if (res.data.success) {
-          this.data = res.data.data
+    methods: {
+      load (params) {
+        let time = new Date().getTime()
+        this.currentDate = moment(time).format('YYYY-MM-DD hh:mm:ss')
+        params.id = this.$route.query.id
+        api.getFunction(params).then((res) => {
+          if (res.data.success) {
+            this.data = res.data.data
 
-          if (time > this.data.deadline) {
-            this.devStartTimeColor = 'green'
-            this.testStartTimeColor = 'green'
-            this.deployStartTimeColor = 'green'
-            this.deadlineColor = 'green'
-          } else if (time > this.data.deployStartTime) {
-            this.devStartTimeColor = 'green'
-            this.testStartTimeColor = 'green'
-            this.deployStartTimeColor = 'green'
-            this.deadlineColor = 'blue'
-          } else if (time > this.data.testStartTime) {
-            this.devStartTimeColor = 'green'
-            this.testStartTimeColor = 'green'
-            this.deployStartTimeColor = 'blue'
-            this.deadlineColor = this.colorGray
-          } else if (time > this.data.devStartTime) {
-            this.devStartTimeColor = 'green'
-            this.testStartTimeColor = 'blue'
-            this.deployStartTimeColor = this.colorGray
-            this.deadlineColor = this.colorGray
-          } else {
-            this.devStartTimeColor = this.colorGray
-            this.testStartTimeColor = this.colorGray
-            this.deployStartTimeColor = this.colorGray
-            this.deadlineColor = this.colorGray
+            if (time > this.data.deadline) {
+              this.devStartTimeColor = 'green'
+              this.testStartTimeColor = 'green'
+              this.deployStartTimeColor = 'green'
+              this.deadlineColor = 'green'
+            } else if (time > this.data.deployStartTime) {
+              this.devStartTimeColor = 'green'
+              this.testStartTimeColor = 'green'
+              this.deployStartTimeColor = 'green'
+              this.deadlineColor = 'blue'
+            } else if (time > this.data.testStartTime) {
+              this.devStartTimeColor = 'green'
+              this.testStartTimeColor = 'green'
+              this.deployStartTimeColor = 'blue'
+              this.deadlineColor = this.colorGray
+            } else if (time > this.data.devStartTime) {
+              this.devStartTimeColor = 'green'
+              this.testStartTimeColor = 'blue'
+              this.deployStartTimeColor = this.colorGray
+              this.deadlineColor = this.colorGray
+            } else {
+              this.devStartTimeColor = this.colorGray
+              this.testStartTimeColor = this.colorGray
+              this.deployStartTimeColor = this.colorGray
+              this.deadlineColor = this.colorGray
+            }
+            this.data.devStartTimeFormat = moment(this.data.devStartTime).format('YYYY-MM-DD hh:mm:ss')
+            this.data.testStartTimeFormat = moment(this.data.testStartTime).format('YYYY-MM-DD hh:mm:ss')
+            this.data.deployStartTimeFormat = moment(this.data.deployStartTime).format('YYYY-MM-DD hh:mm:ss')
+            this.data.deadlineFormat = moment(this.data.deadline).format('YYYY-MM-DD hh:mm:ss')
           }
-          this.data.devStartTimeFormat = moment(this.data.devStartTime).format('YYYY-MM-DD hh:mm:ss')
-          this.data.testStartTimeFormat = moment(this.data.testStartTime).format('YYYY-MM-DD hh:mm:ss')
-          this.data.deployStartTimeFormat = moment(this.data.deployStartTime).format('YYYY-MM-DD hh:mm:ss')
-          this.data.deadlineFormat = moment(this.data.deadline).format('YYYY-MM-DD hh:mm:ss')
-        }
-      })
+        })
+      }
     }
   }
-}
 </script>
 
 <style scoped>

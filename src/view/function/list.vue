@@ -16,8 +16,11 @@
         <Card style="margin: 5px">
           <List style="height: 300px">
             <ListItem class="list-span-message" v-for="item in itemData" :key="item.title">
-              <span style="margin-right: 20px;">{{ item.createdDate }}</span> <Tag color="blue">{{ item.assignerName }}</Tag>
-              将&nbsp;<Tag color="geekblue">{{item.functionName}}</Tag>标记为&nbsp;<Tag color="green">{{item.functionStateName}}</Tag>状态
+              <span style="margin-right: 20px;">{{ item.createdDate }}</span>
+              <Tag color="blue">{{ item.assignerName }}</Tag>
+              将&nbsp;<Tag color="geekblue">{{item.functionName}}</Tag>
+              标记为&nbsp;<Tag color="green">{{item.functionStateName}}</Tag>
+              状态
             </ListItem>
           </List>
         </Card>
@@ -36,7 +39,7 @@
           <Button type="primary" style="margin-left: 18px" @click="load()">搜索</Button>
         </Col>
         <Col span="1">
-          <Button type="success">新增需求</Button>
+          <Button type="success" @click="openDrawer = true">新增需求</Button>
         </Col>
       </Row>
     </Card>
@@ -56,6 +59,54 @@
 
     </Card>
 
+    <Drawer title="新增需求" width="360" :closable="true" :mask-closable="false" v-model="openDrawer">
+      <Form ref="formValidateRef" :model="formData" :rules="ruleValidate">
+
+        <FormItem label="所属项目" label-position="top" prop="projectId">
+          <Select v-model="formData.projectId">
+            <Option v-for="item in projects" :value="item.id" :key="item.id">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="需求名称" label-position="top" prop="name">
+          <Input v-model="formData.name" placeholder="请输入需求名称" show-word-limit/>
+        </FormItem>
+
+        <FormItem label="开发开始时间" label-position="top" prop="devStartTimeDate">
+          <DatePicker v-model="formData.devStartTimeDate" type="datetime" placeholder="请输入项目开始开发时间"
+                      style="width: 100%"></DatePicker>
+        </FormItem>
+
+        <FormItem label="测试开始时间" label-position="top" prop="testStartTimeDate">
+          <DatePicker v-model="formData.testStartTimeDate" type="datetime" placeholder="请输入项目开始测试时间"
+                      style="width: 100%"></DatePicker>
+        </FormItem>
+
+        <FormItem label="部署开始时间" label-position="top" prop="deployStartTimeDate">
+          <DatePicker v-model="formData.deployStartTimeDate" type="datetime" placeholder="请输入项目开始部署时间"
+                      style="width: 100%"></DatePicker>
+        </FormItem>
+
+        <FormItem label="项目结束" label-position="top" prop="deadlineDate">
+          <DatePicker v-model="formData.deadlineDate" type="datetime" placeholder="请输入项目结束时间"
+                      style="width: 100%"></DatePicker>
+        </FormItem>
+
+        <FormItem label="备注" label-position="top">
+          <Input v-model="formData.remark" placeholder="请输入备注信息"/>
+        </FormItem>
+
+      </Form>
+
+      <Row>
+        <Col span="12">
+          <Button style="width: 90%" @click="handleReset('formValidateRef')">重置</Button>
+        </Col>
+        <Col span="12">
+          <Button style="width: 90%" type="primary" @click="handleSubmit('formValidateRef')">提交</Button>
+        </Col>
+      </Row>
+    </Drawer>
   </div>
 </template>
 
@@ -73,6 +124,25 @@
     },
     data () {
       return {
+        openDrawer: false,
+        formData: {},
+        ruleValidate: {
+          name: [
+            { required: true, message: '需求名不能为空', trigger: 'blur' }
+          ],
+          devStartTimeDate: [
+            { type: 'date', required: true, message: '开始开发时间不能为空', trigger: 'blur' }
+          ],
+          testStartTimeDate: [
+            { type: 'date', required: true, message: '测试开始时间不能为空', trigger: 'blur' }
+          ],
+          deployStartTimeDate: [
+            { type: 'date', required: true, message: '部署开始时间不能为空', trigger: 'blur' }
+          ],
+          deadlineDate: [
+            { type: 'date', required: true, message: '结束时间不能为空', trigger: 'blur' }
+          ]
+        },
         itemData: [],
         pieData: [
           { value: 335, name: '开发' },
@@ -261,6 +331,36 @@
 
       changePageSize (num) {
         this.pc.pageSize = parseInt(num)
+      },
+
+      handleSubmit (name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.addFunction()
+          } else {
+            this.$Message.error('非法参数!')
+          }
+        })
+      },
+
+      handleReset (name) {
+        this.$refs[name].resetFields()
+      },
+
+      addFunction () {
+        this.formData.devStartTime = Date.parse(this.formData.devStartTimeDate)
+        this.formData.testStartTime = Date.parse(this.formData.testStartTimeDate)
+        this.formData.deployStartTime = Date.parse(this.formData.deployStartTimeDate)
+        this.formData.deadline = Date.parse(this.formData.deadlineDate)
+
+        api.createFunction(this.formData).then((res) => {
+          if (res.data.success) {
+            this.$Notice.success({
+              title: '操作成功'
+            })
+            this.$refs[name].resetFields()
+          }
+        })
       }
     }
   }

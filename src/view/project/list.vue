@@ -27,7 +27,7 @@
 
     </Card>
 
-    <Drawer title="创建项目" width="360" :closable="false" :mask-closable="false" v-model="openDrawer">
+    <Drawer title="创建项目" width="360" :closable="true" :mask-closable="false" v-model="openDrawer">
       <Form ref="formValidateRef" :model="formData" :rules="ruleValidate">
         <FormItem label="项目名" label-position="top" prop="name">
           <Input v-model="formData.name" placeholder="请输入项目名" show-word-limit/>
@@ -58,7 +58,7 @@
 
       <Row>
         <Col span="12">
-          <Button style="width: 90%" @click="openDrawer = false">重置</Button>
+          <Button style="width: 90%" @click="handleReset('formValidateRef')">重置</Button>
         </Col>
         <Col span="12">
           <Button style="width: 90%" type="primary" @click="handleSubmit('formValidateRef')">提交</Button>
@@ -206,10 +206,15 @@
           if (valid) {
             this.addProject()
           } else {
-            this.$Message.error('Fail!')
+            this.$Message.error('非法参数!')
           }
         })
       },
+
+      handleReset (name) {
+        this.$refs[name].resetFields()
+      },
+
       addProject () {
         this.formData.deadline = Date.parse(this.formData.deadlineDate)
         this.formData.startTime = Date.parse(this.formData.startTimeDate)
@@ -219,6 +224,8 @@
             this.$Notice.success({
               title: '操作成功'
             })
+            this.$refs[name].resetFields()
+            this.openDrawer = false
           }
         })
       },

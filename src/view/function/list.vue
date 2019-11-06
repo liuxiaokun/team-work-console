@@ -98,7 +98,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="备注" label-position="top">
+        <FormItem label="备注" label-position="top" prop = "remark">
           <Input v-model="formData.remark" placeholder="请输入备注信息"/>
         </FormItem>
 
@@ -149,7 +149,7 @@
             { type: 'date', required: true, message: '结束时间不能为空', trigger: 'blur' }
           ],
           currentStateId: [
-            { type: 'date', required: true, message: '当前任务状态不能为空', trigger: 'blur' }
+            { required: true, message: '当前任务状态不能为空', trigger: 'blur' }
           ]
         },
         itemData: [],
@@ -380,7 +380,8 @@
             this.$Notice.success({
               title: '操作成功'
             })
-            this.$refs[name].resetFields()
+            this.$refs['formValidateRef'].resetFields()
+            this.openDrawer = false
           }
         })
       }

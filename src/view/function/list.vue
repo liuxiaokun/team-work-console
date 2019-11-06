@@ -92,6 +92,12 @@
                       style="width: 100%"></DatePicker>
         </FormItem>
 
+        <FormItem label="当前任务状态" label-position="top" prop="currentStateId">
+          <Select v-model="formData.currentStateId">
+            <Option v-for="item in functionStates" :value="item.id" :key="item.id">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
+
         <FormItem label="备注" label-position="top">
           <Input v-model="formData.remark" placeholder="请输入备注信息"/>
         </FormItem>
@@ -141,6 +147,9 @@
           ],
           deadlineDate: [
             { type: 'date', required: true, message: '结束时间不能为空', trigger: 'blur' }
+          ],
+          currentStateId: [
+            { type: 'date', required: true, message: '当前任务状态不能为空', trigger: 'blur' }
           ]
         },
         itemData: [],
@@ -165,7 +174,10 @@
           name: '',
           projectId: ''
         },
+        // 所有的项目列表，用于创建需求，指定项目
         projects: [],
+        // 任务可能的所有的状态，用于下拉框
+        functionStates: [],
         pc: {
           pageIndex: 1,
           pageSize: 20,
@@ -274,6 +286,7 @@
 
     created () {
       this.loadProject()
+      this.loadFunctionState()
       this.load()
     },
 
@@ -300,6 +313,15 @@
           }
         })
       },
+
+      loadFunctionState () {
+        api.getFunctionState({ p: 1, s: 2000, scs: 'priority(desc)' }).then((res) => {
+          if (res.data.success) {
+            this.functionStates = res.data.data
+          }
+        })
+      },
+
       load () {
         let paging = {
           p: this.pc.pageIndex,

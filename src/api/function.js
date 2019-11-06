@@ -19,3 +19,7 @@ export const getFunctionStateHistory = (params) => {
 export const createFunction = (params) => {
   return ax.p(projectUrl + '/function', params)
 }
+
+export const getFunctionState = (params) => {
+  return ax.g(url + '/function/state', params)
+}

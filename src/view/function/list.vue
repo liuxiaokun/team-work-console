@@ -74,22 +74,22 @@
 
         <FormItem label="开发开始时间" label-position="top" prop="devStartTimeDate">
           <DatePicker v-model="formData.devStartTimeDate" type="datetime" placeholder="请输入项目开始开发时间"
-                      style="width: 100%"></DatePicker>
+                      :options="optionsDev" style="width: 100%"></DatePicker>
         </FormItem>
 
         <FormItem label="测试开始时间" label-position="top" prop="testStartTimeDate">
           <DatePicker v-model="formData.testStartTimeDate" type="datetime" placeholder="请输入项目开始测试时间"
-                      style="width: 100%"></DatePicker>
+                      :options="optionsTest" style="width: 100%"></DatePicker>
         </FormItem>
 
         <FormItem label="部署开始时间" label-position="top" prop="deployStartTimeDate">
           <DatePicker v-model="formData.deployStartTimeDate" type="datetime" placeholder="请输入项目开始部署时间"
-                      style="width: 100%"></DatePicker>
+                      :options="optionsDeploy" style="width: 100%"></DatePicker>
         </FormItem>
 
         <FormItem label="项目结束" label-position="top" prop="deadlineDate">
           <DatePicker v-model="formData.deadlineDate" type="datetime" placeholder="请输入项目结束时间"
-                      style="width: 100%"></DatePicker>
+                      :options="optionsDeadline" style="width: 100%"></DatePicker>
         </FormItem>
 
         <FormItem label="当前任务状态" label-position="top" prop="currentStateId">
@@ -130,9 +130,37 @@
     },
     data () {
       return {
+        // 控制时间空间可选择的有效日期
+        optionsDev: {
+          disabledDate (date) {
+            return date && date.valueOf() < Date.now() - 86400000
+          }
+        },
+
+        optionsTest: {
+          disabledDate (date) {
+            return date && date.valueOf() < Date.now() - 86400000
+          }
+        },
+
+        optionsDeploy: {
+          disabledDate (date) {
+            return date && date.valueOf() < Date.now() - 86400000
+          }
+        },
+
+        optionsDeadline: {
+          disabledDate (date) {
+            return date && date.valueOf() < Date.now() - 86400000
+          }
+        },
+
         openDrawer: false,
         formData: {},
         ruleValidate: {
+          projectId: [
+            { required: true, message: '所属项目不能为空', trigger: 'blur' }
+          ],
           name: [
             { required: true, message: '需求名不能为空', trigger: 'blur' }
           ],
@@ -288,6 +316,7 @@
       let projectId = this.$route.query.id
       if (projectId !== undefined) {
         this.filters.projectId = this.$route.query.id
+        this.formData.projectId = this.$route.query.id
       }
       this.loadProject()
       this.loadFunctionState()

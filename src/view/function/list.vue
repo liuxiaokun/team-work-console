@@ -98,7 +98,7 @@
           </Select>
         </FormItem>
 
-        <FormItem label="备注" label-position="top" prop = "remark">
+        <FormItem label="备注" label-position="top" prop="remark">
           <Input v-model="formData.remark" placeholder="请输入备注信息"/>
         </FormItem>
 
@@ -130,7 +130,7 @@
     },
     data () {
       return {
-        // 控制时间空间可选择的有效日期
+        // 控制时间控件可选择的有效日期
         optionsDev: {
           disabledDate (date) {
             return date && date.valueOf() < Date.now() - 86400000
@@ -408,6 +408,33 @@
         this.formData.deployStartTime = Date.parse(this.formData.deployStartTimeDate)
         this.formData.deadline = Date.parse(this.formData.deadlineDate)
 
+        if (this.formData.devStartTime < Date.now()) {
+          this.$Notice.error({
+            title: '操作失败',
+            desc: '开发开始时间不能晚于当前时间'
+          })
+        }
+
+        if (this.formData.testStartTime < this.formData.devStartTime) {
+          this.$Notice.error({
+            title: '操作失败',
+            desc: '测试时间不可早于开发时间'
+          })
+        }
+
+        if (this.formData.deployStartTime < this.formData.testStartTime) {
+          this.$Notice.error({
+            title: '操作失败',
+            desc: '部署时间不可早于测试时间'
+          })
+        }
+
+        if (this.formData.deadline < this.formData.deployStartTime) {
+          this.$Notice.error({
+            title: '操作失败',
+            desc: '结束时间不可早于部署时间'
+          })
+        }
         api.createFunction(this.formData).then((res) => {
           if (res.data.success) {
             this.$Notice.success({

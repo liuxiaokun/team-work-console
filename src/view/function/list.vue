@@ -285,6 +285,10 @@
     },
 
     created () {
+      let projectId = this.$route.query.id
+      if (projectId !== undefined) {
+        this.filters.projectId = this.$route.query.id
+      }
       this.loadProject()
       this.loadFunctionState()
       this.load()

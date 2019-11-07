@@ -120,7 +120,19 @@
             title: '项目名',
             key: 'name',
             align: 'center',
-            width: 220
+            width: 220,
+            render: (h, params) => {
+              return h('a', {
+                on: {
+                  click: () => {
+                    this.$router.push({
+                      path: '/function/list',
+                      query: { id: params.row.id }
+                    })
+                  }
+                }
+              }, params.row.name)
+            }
           },
           {
             title: '启动时间',
@@ -224,7 +236,7 @@
             this.$Notice.success({
               title: '操作成功'
             })
-            this.$refs[name].resetFields()
+            this.$refs['formValidateRef'].resetFields()
             this.openDrawer = false
           }
         })

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import config from '@/config'
 import qs from 'qs'
 import iview from 'iview'
 import { setToken, getToken } from '@/libs/util'
@@ -118,7 +117,6 @@ export const up = (url, data) => {
 }
 
 export function base (type, url, params) {
-  let self = this
   return new Promise((resolve, reject) => {
     itr(type, url, params).then((response) => {
       if (response.headers['authorization']) {
@@ -145,7 +143,7 @@ export function base (type, url, params) {
       if (thrown.response !== undefined) {
         if (thrown.response.status === 401) {
           // signin
-          if (url.indexOf('/login') != -1) {
+          if (url.indexOf('/login') !== -1) {
             iview.Notice.error({
               title: '用户名或密码错误！'
             })

@@ -52,9 +52,9 @@
         <Card style="margin-left: 5px;">
           <div style="height: 300px;">
             <div style="padding-bottom: 10px;">时间消耗</div>
-            <Progress :percent="45" status="active" :stroke-width="25"/>
+            <Progress :percent="this.data.timeCostPercent" status="active" :stroke-width="25"/>
             <div style="padding-bottom: 10px; padding-top: 10px;">完成进度</div>
-            <Progress :percent="100" :stroke-width="25" style/>
+            <Progress :percent="this.data.completePercent" :stroke-width="25" style/>
           </div>
         </Card>
       </Col>

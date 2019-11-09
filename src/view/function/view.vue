@@ -106,7 +106,6 @@
     data () {
       return {
         colorGray: '#999999',
-        currentDate: '',
         devStartTimeColor: '#999999',
         testStartTimeColor: '#999999',
         deployStartTimeColor: '#999999',
@@ -122,7 +121,6 @@
     methods: {
       load (params) {
         let time = new Date().getTime()
-        this.currentDate = moment(time).format('YYYY-MM-DD hh:mm:ss')
         params.id = this.$route.query.id
         api.getFunction(params).then((res) => {
           if (res.data.success) {

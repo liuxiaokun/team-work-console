@@ -23,3 +23,11 @@ export const createFunction = (params) => {
 export const getFunctionState = (params) => {
   return ax.g(url + '/function/state', params)
 }
+
+export const updatexFunction = (params) => {
+  return ax.pa(projectUrl + '/function/' + params.id, params)
+}
+
+export const getNextFunctionState = (params) => {
+  return ax.g(url + '/function/state/next/' + params.currentStateId, params)
+}

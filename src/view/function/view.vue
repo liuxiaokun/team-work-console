@@ -25,9 +25,9 @@
             <ListItem>
               <ListItemMeta title="创建人" :description="data.createdName" />
             </ListItem>
-
           </List>
         </Card>
+        <Button @click="markState()" type="primary" :disabled="disable" long style="margin-top: 10px">标记状态 -> {{buttonName}}</Button>
       </Col>
       <Col span="6">
         <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
@@ -105,12 +105,15 @@
 
     data () {
       return {
+        disable: false,
+        buttonName: '',
         colorGray: '#999999',
         devStartTimeColor: '#999999',
         testStartTimeColor: '#999999',
         deployStartTimeColor: '#999999',
         deadlineColor: '#999999',
-        data: {}
+        data: {},
+        nextFunctionState: {}
       }
     },
 
@@ -119,12 +122,33 @@
     },
 
     methods: {
+      markState () {
+        debugger
+        let params = {
+          'id': this.data.id,
+          'current_state_id': this.nextFunctionState.id,
+          'current_state_name': this.nextFunctionState.name,
+          'assigner': '243535342545'
+        }
+        api.updatexFunction(params).then((res) => {
+          if (res.data.success) {
+            this.$Notice.success({
+              title: '操作成功'
+            })
+            this.disable = true
+          }
+        })
+      },
       load (params) {
         let time = new Date().getTime()
         params.id = this.$route.query.id
         api.getFunction(params).then((res) => {
           if (res.data.success) {
             this.data = res.data.data
+            let param = {
+              currentStateId: this.data.currentStateId
+            }
+            this.nextState(param)
 
             if (time > this.data.deadline) {
               this.devStartTimeColor = 'green'
@@ -156,6 +180,15 @@
             this.data.testStartTimeFormat = moment(this.data.testStartTime).format('YYYY-MM-DD hh:mm:ss')
             this.data.deployStartTimeFormat = moment(this.data.deployStartTime).format('YYYY-MM-DD hh:mm:ss')
             this.data.deadlineFormat = moment(this.data.deadline).format('YYYY-MM-DD hh:mm:ss')
+          }
+        })
+      },
+
+      nextState (params) {
+        api.getNextFunctionState(params).then((res) => {
+          if (res.data.success) {
+            this.nextFunctionState = res.data.data
+            this.buttonName = res.data.data.name
           }
         })
       }

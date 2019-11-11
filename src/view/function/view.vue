@@ -5,29 +5,31 @@
         <Card>
           <List>
             <ListItem>
-              <ListItemMeta title="所属项目" :description="data.projectName" />
+              <ListItemMeta title="所属项目" :description="data.projectName"/>
             </ListItem>
             <ListItem>
-              <ListItemMeta title="需求名称" :description="data.name" />
+              <ListItemMeta title="需求名称" :description="data.name"/>
             </ListItem>
             <ListItem>
-              <ListItemMeta title="当前状态" :description="data.currentStateName" />
+              <ListItemMeta title="当前状态" :description="data.currentStateName"/>
             </ListItem>
             <ListItem>
-              <ListItemMeta title="当前处理人" :description="data.currentHandlePerson" />
+              <ListItemMeta title="当前处理人" :description="data.currentHandlePerson"/>
             </ListItem>
             <ListItem>
-              <ListItemMeta title="详细描述" :description="data.desc" />
+              <ListItemMeta title="详细描述" :description="data.desc"/>
             </ListItem>
             <ListItem>
-              <ListItemMeta title="创建时间" :description="data.createdDate" />
+              <ListItemMeta title="创建时间" :description="data.createdDate"/>
             </ListItem>
             <ListItem>
-              <ListItemMeta title="创建人" :description="data.createdName" />
+              <ListItemMeta title="创建人" :description="data.createdName"/>
             </ListItem>
           </List>
         </Card>
-        <Button @click="markState()" type="primary" :disabled="disable" long style="margin-top: 10px">标记状态 -> {{buttonName}}</Button>
+        TODO 选择指派人
+        <Button @click="markState()" type="primary" :disabled="disable" long style="margin-top: 10px">{{buttonName}}
+        </Button>
       </Col>
       <Col span="6">
         <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
@@ -106,7 +108,7 @@
     data () {
       return {
         disable: false,
-        buttonName: '',
+        buttonName: '将标记状态为 ',
         colorGray: '#999999',
         devStartTimeColor: '#999999',
         testStartTimeColor: '#999999',
@@ -123,7 +125,6 @@
 
     methods: {
       markState () {
-        debugger
         let params = {
           'id': this.data.id,
           'current_state_id': this.nextFunctionState.id,
@@ -187,8 +188,13 @@
       nextState (params) {
         api.getNextFunctionState(params).then((res) => {
           if (res.data.success) {
-            this.nextFunctionState = res.data.data
-            this.buttonName = res.data.data.name
+            if (res.data.data.id === null || res.data.data.id === undefined) {
+              this.buttonName = '结束'
+              this.disable = true
+            } else {
+              this.nextFunctionState = res.data.data
+              this.buttonName = this.buttonName + res.data.data.name
+            }
           }
         })
       }

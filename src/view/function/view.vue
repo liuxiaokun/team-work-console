@@ -137,6 +137,12 @@
 
     methods: {
       markState () {
+        if (this.assigner === 0) {
+          this.$Notice.error({
+            title: '请选择负责人'
+          })
+          return
+        }
         let params = {
           'id': this.data.id,
           'current_state_id': this.nextFunctionState.id,
@@ -149,6 +155,7 @@
               title: '操作成功'
             })
             this.disable = true
+            this.load({})
           }
         })
       },

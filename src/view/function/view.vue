@@ -27,9 +27,18 @@
             </ListItem>
           </List>
         </Card>
-        TODO 选择指派人
-        <Button @click="markState()" type="primary" :disabled="disable" long style="margin-top: 10px">{{buttonName}}
-        </Button>
+
+        <Row>
+          <Col span="12">
+            <Select v-model="assigner" placeholder="请指派负责人" :disabled="disable">
+              <Option v-for="item in userList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            </Select>
+          </Col>
+          <Col span="12">
+            <Button @click="markState()" type="primary" :disabled="disable" long>{{buttonName}}
+            </Button>
+          </Col>
+        </Row>
       </Col>
       <Col span="6">
         <Card style="margin-left: 5px; font-weight: bold; font-size: 16px">
@@ -100,6 +109,7 @@
 
 <script>
   import * as api from '@/api/function'
+  import * as rbacApi from '@/api/rbac'
   import moment from 'moment'
 
   export default {
@@ -107,6 +117,8 @@
 
     data () {
       return {
+        assigner: 0,
+        userList: [],
         disable: false,
         buttonName: '将标记状态为 ',
         colorGray: '#999999',
@@ -129,7 +141,7 @@
           'id': this.data.id,
           'current_state_id': this.nextFunctionState.id,
           'current_state_name': this.nextFunctionState.name,
-          'assigner': '243535342545'
+          'assigner': this.assigner
         }
         api.updatexFunction(params).then((res) => {
           if (res.data.success) {
@@ -183,6 +195,9 @@
             this.data.deadlineFormat = moment(this.data.deadline).format('YYYY-MM-DD hh:mm:ss')
           }
         })
+
+        let userParams = { s: 100 }
+        this.loadUserList(userParams)
       },
 
       nextState (params) {
@@ -195,6 +210,14 @@
               this.nextFunctionState = res.data.data
               this.buttonName = this.buttonName + res.data.data.name
             }
+          }
+        })
+      },
+
+      loadUserList (params) {
+        rbacApi.getUser(params).then((res) => {
+          if (res.data.success) {
+            this.userList = res.data.data
           }
         })
       }
